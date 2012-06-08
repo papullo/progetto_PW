@@ -1,6 +1,6 @@
 <?php
 	session_start();
-   include("connettiDb.php");
+   include("funzioni.php");
    if(!isset($_SESSION['sess_utente'])) header("Location:index.php");
 ?>
 

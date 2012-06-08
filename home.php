@@ -17,30 +17,17 @@
 			<div id="header" class="container">
 				<div id="logo">
 					<h1>Yourlibrary</h1>
-           </div>
-           <?php
-                if(isset($_SESSION['nome']))
-        	{
-                        //azzero le stampe e internet se è l'inizio del mese
-
-                        echo "<br />".$curdate."<br />";
-                	echo "
-                	<div id=\"menu\">
-							<ul>
-							<li class=\"current_page_item\"><a href=\"#\">".$_SESSION['nome']."</a></li>
-							<li><a href=\"modPwd.php\">Cambia password</a></li>	
-							<li><a href=\"logout.php\">logout</a></li>
-							</ul>
-		   			</div>
+           	</div>
+            <div id=\"menu\">
+					<ul>
+						<li class="current_page_item"><?$_SESSION['sess_utente']?>."</li>
+						<li><a href="modPwd.php">Cambia password</a></li>	
+						<li><a href="logout.php">logout</a></li>
+					</ul>
+		   	</div>
 		   </div><!-- end #header -->";
-		 			 if($_SESSION['tipo']=="direttore")
-		   			 {
-		   			 	echo"
-		   			 	<div id=\"page\" class=\"container\">
-								<div id=\"marketing\">
-									<p class=\"text1\">Categoria utente: Direttore</p> <p align =\"right\">".date("d/m/y")."</p>
-								</div>
-									<div id=\"content\">
+		 			 <?include("menu.php"))?>
+		 			 	<div id=\"content\">
 										<div class=\"post\">
 											<h2 class=\"title\">Gestione Dipendenti: </h2>
 												<div style=\"clear: both;\">&nbsp;</div>
