@@ -1,0 +1,18 @@
+<?php	session_start();	include ("connettiDb.php");
+	include ("XHTMLfunctions.php");?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">	<head>		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>		<title>Yourlibrary</title>		<link href="css/style.css" rel="stylesheet" type="text/css" media="screen">	</head>	<body>     <div id="wrapper">			<div id="header" class="container">				<div id="logo">					<h1>YourLibrary</h1>           </div>  	<?php         if(!isset($_SESSION['log']))        	{           	           echo "				<div id=\"menu\">				<ul>					<li class=\"current_page_item\"><a href=\"index.php\">Devi identificarti per accedere al sito</a></li>				</ul>				</div>";                             			exit;                    }    ?>    
+    <div id="menu">				<ul>					<li class="current_page_item"><a href="home.php">Home</a></li>					<li><a href="logout.php">logout</a></li>				</ul>   			</div>			   </div><!-- end #header -->
+				<div id="page" class="container">					<div id="marketing">						<p class="text1">Visualizza Clienti</p>					</div>					<div id="content">
+				<?php
+				$query = mysql_query("SELECT * FROM Cliente ORDER BY cognome, nome");   			$righe=mysql_num_rows($query);				if($righe != 0)				{					$datequery=mysql_query("SELECT DATE_FORMAT( data_nascita,'%d/%m/%Y') data_nascita FROM Cliente ORDER BY cognome, nome");					$border="1";
+				 	$cellspacing="1";
+				 	$cellpadding="0";
+				 	$indici=th("cognome").th("nome").th("tessera").th("indirizzo").th("data di nascita");
+				 	$indici.=th("telefono").th("stampe").th("min internet").th("password");
+				 	$corpo=tr($indici);					
+					while($row=mysql_fetch_array($query,MYSQL_BOTH))					{						$riga_dati=td($row['cognome']).td($row['nome']).td($row['tessera']).td($row['indirizzo']);
+						$date=mysql_fetch_array($datequery);
+						$riga_dati.=td($row['data_nascita']).td($row['telefono']);
+						$id=$row['id_cliente'];						$somma=mysql_query("SELECT SUM(num_copie) AS somma FROM Stampa WHERE cliente='$id'");            		$sommastampe=mysql_fetch_array($somma);	         		$somma=$sommastampe['somma'];            								$riga_dati.=td($somma);            		$min=mysql_query("SELECT SUM(minuti) AS somma FROM Internet WHERE cliente='$id'");            		$sommamin=mysql_fetch_array($min);            		$minut=$sommamin['somma'];            		$riga_dati.=td($minut);						$riga_dati.=td($row['password']);            		if($_SESSION['tipo']=='bibliotecario')           			{              			$azioni="<input type=button value=\"Cancella\" onclick=\"location.href='cancClienti.php?action=cancvis&id=".$row['id_cliente']."'\"</center>";							$azioni.="<br>";              			
+              			$azioni.="<input type=button value=\"Modifica\" onclick=\"location.href='modClienti.php?action=modvis&id=".$row['id_cliente']."'\"</center>";              			$riga_dati.=td($azioni);            		}            		$corpo.=tr($riga_dati);					}
+					echo table($corpo, $border, $cellspacing, $cellpadding);				}				else				{					echo "<div class=\"post\"><h2 class=\"title\">Nessun Risultato</h2></div>";				}
+				mysql_close($con);		?>			</div><!-- end #content -->			</div><!-- end #page -->			</div><!-- end #wrapper -->				<div id="footer-content" class="container">					<div id="footer-bg">						<div id="column2">							<p>Mattia Pavoni  73535<br />Pietro Carè  72610</p>						</div>					</div>				</div>				<div id="footer">					<p>Progetto Programmazione web 2011/12</p>				</div>";        	</body></html>

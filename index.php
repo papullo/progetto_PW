@@ -1,0 +1,86 @@
+<?php
+	session_start();
+   include("funzioni.php");
+   include("classi.php");
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>YourLibrary</title>
+		<link href="css/style.css" rel="stylesheet" type="text/css" media="screen">
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="header" class="container">
+				<div id="logo">
+					<h1>Benvenuto in Yourlibrary</h1>				</div>			</div>
+	<!-- end #header -->		<div id="page" class="container">			<div id="content">
+				<div class="post">
+					<h2 class="title">Esegui il Login</h2>            	<div style="clear: both;">&nbsp;</div>					<div class="entry">
+					 <br />
+					 <form action="?action=login" method="post">
+                <br />Codice Fiscale<br />
+                <input type="text" name="utente" class="input" />
+                <br />Password<br />
+                <input type="password" name="pwd" class="input" />
+                <br /><br />
+                <p class="links">
+                <input type="submit" value="Invio" class="form_btn" />
+                </p>
+                </form>					</div>				</div>					<div style="clear: both;">&nbsp;</div>			</div>
+	<!-- end #content -->	<div style="clear: both;">&nbsp;</div>	</div>	<!-- end #page -->	</div>
+	<!-- end #wrapper -->
+<?include ("footer.php");?>
+<!-- end #footer -->
+<?php
+   if(getvar('action')=="login")
+	{
+		$con=Connetti();
+		if ($con)
+		{print("<script language='javascript'>alert(\"ciao\");</script>");
+			$utente = getvar("utente", "");
+			$password = getvar("pwd", "");
+			print("<script language='javascript'>alert(".str_quoted($utente).");</script>");
+			$oUtente = new Utente($utente, $password);
+			print("<script language='javascript'>alert(".$oUtente->nome.");</script>");
+ 			if ($oUtente->ok)
+ 			{
+ 				$_SESSION['sess_utente'] = $oUtente;
+ 			}
+			/*$query = mysql_query("SELECT * FROM Personale WHERE cod_fiscale='$user'");
+			$dati =  mysql_fetch_array($query);
+      if($_POST['pwd']==$dati['password'])
+      {
+      	//definizione variabili globali
+              $_SESSION['log']="si";
+              $_SESSION['utente']=$user;
+              $_SESSION['nome']=$dati['nome']." ".$dati['cognome'];
+              $idcat = $dati['categoria'];
+              $query = mysql_query("SELECT * FROM Categoria_Personale WHERE id_cat_per='$idcat'");
+              $dati =  mysql_fetch_array($query);
+              $_SESSION['tipo']=$dati['tipologia'];*/
+              
+              Disconnetti();
+              
+              header("Location: home.php");
+      }
+      else
+      {
+      	mysql_close($con);
+         print("<script language='javascript'>alert(".ERR_LOGIN.");</script>");
+         exit;
+      }
+ 	}
+        ?>
+
+</body>
+
+</html>
+
+
+
+
+
+

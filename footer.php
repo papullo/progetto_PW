@@ -1,0 +1,1 @@
+	<div id="footer-content" class="container">		<div id="footer-bg">			<div id="column2">				<p>Mattia Pavoni  85931<br />Pietro Car&egrave;  86144</p>			</div>		</div>	</div>	<div id="footer">		<p>Progetto Programmazione web 2011/12</p>	</div>   </body></html>
